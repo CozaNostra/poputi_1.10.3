@@ -1,16 +1,5 @@
 <?php
 if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
-/******************************************************************************/
-//                                                                            //
-//                             InstantCMS v1.9                                //
-//                        http://www.instantcms.ru/                           //
-//                                                                            //
-//                   written by InstantCMS Team, 2007-2011                    //
-//                produced by InstantSoft, (www.instantsoft.ru)               //
-//                                                                            //
-//                        LICENSED BY GNU/GPL v2                              //
-//                                                                            //
-/******************************************************************************/
 
 	cpAddPathway('Попутчики', '?view=components&do=config&id='.(int)$_REQUEST['id']);
 	cpAddPathway('Настройка', '?view=components&do=config&id='.(int)$_REQUEST['id'].'&opt=config');
@@ -201,11 +190,8 @@ if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
 	}
 	
 	
-	if($opt=='edit'){	
-	
-	header('location:/poputi/edit'.$_REQUEST['item_id'].'.html');
-	
-	}
+	if($opt=='edit')
+		header('Location :/poputi/edit'.$_REQUEST['item_id'].'.html');
 	
 	
 	if($opt=='saveconfig'){	
@@ -266,21 +252,7 @@ if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
 		?>
 	
 	<form action="index.php?view=components&do=config&id=<?php echo (int)$_REQUEST['id'];?>&opt=config" method="post" name="optform" target="_self" id="form1">
-		<table width="680" border="0" cellpadding="10" cellspacing="0" class="proptable">
-			
-			<tr>
-				<td>
-					<strong>Ключ:</strong><br />
-				</td>
-				<td valign="top">
-					<input name="key" size="50" type="text" value="<?php echo $cfg['key'] ?>"  />
-					<a href="http://cn13.ru/pay-key.html" target="_blank"  >Получить ключ</a> |
-					<a href="http://cn13.ru/generator.php?domen=<?php echo $_SERVER['HTTP_HOST']?>" target="_blank"  >Мой ключ</a>					
-				
-				</td>
-			</tr>
-			
-			
+		<table width="680" border="0" cellpadding="10" cellspacing="0" class="proptable">			
 			<tr>
 				<td>
 					<strong>Заголовок на странице первого посещения:</strong><br />
@@ -318,11 +290,10 @@ if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
                     <td><strong>Премодерация маршрутов</strong><br>
 					<small>Уведомление о новом маршруте приходит в ЛС</small>
 					</td>
-                    <td><input name="moder" type="radio" value="1" checked="checked" <?php if (@$cfg['moder']) { echo 'checked="checked"'; } ?> />
-                      Да
-                      <label>
-        <input name="moder" type="radio" value="0"  <?php if (@!$cfg['moder']) { echo 'checked="checked"'; } ?> />
-                        Нет</label></td>
+                    <td>
+						<label><input name="moder" type="radio" value="1" checked="checked" <?php if (@$cfg['moder']) { echo 'checked="checked"'; } ?> />Да</label>
+						<label><input name="moder" type="radio" value="0"  <?php if (@!$cfg['moder']) { echo 'checked="checked"'; } ?> />Нет</label>
+					</td>
             </tr>
 			<tr>
             <td><strong>Кому отправлять личное сообщение о новом маршруте:</strong></td>
@@ -339,24 +310,24 @@ if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
             </td>
 			</tr>
 			<tr>
-                    <td><strong>Разрешить пользователям редактировать маршрут после добавления</strong><br>
+                    <td>
+						<strong>Разрешить пользователям редактировать маршрут после добавления</strong><br>
 					</td>
-                    <td><input name="edit" type="radio" value="1" checked="checked" <?php if (@$cfg['edit']) { echo 'checked="checked"'; } ?> />
-                      Да
-                      <label>
-					<input name="edit" type="radio" value="0"  <?php if (@!$cfg['edit']) { echo 'checked="checked"'; } ?> />
-                        Нет</label></td>
+                    <td>
+						<input name="edit" type="radio" value="1" checked="checked" <?php if (@$cfg['edit']) { echo 'checked="checked"'; } ?> />Да
+						<label><input name="edit" type="radio" value="0"  <?php if (@!$cfg['edit']) { echo 'checked="checked"'; } ?> />Нет</label>
+					</td>
             </tr>
 			<tr>
-                    <td><strong>Разрешить пользователям изменять статус</strong>
-					<br>
-					<small>Водитель\Пассажир</small>
+                    <td>
+						<strong>Разрешить пользователям изменять статус</strong>
+						<br>
+						<small>Водитель\Пассажир</small>
 					</td>
-                    <td><input name="status" type="radio" value="1" checked="checked" <?php if (@$cfg['status']) { echo 'checked="checked"'; } ?> />
-                      Да
-                      <label>
-					<input name="status" type="radio" value="0"  <?php if (@!$cfg['status']) { echo 'checked="checked"'; } ?> />
-                        Нет</label></td>
+                    <td>
+						<input name="status" type="radio" value="1" checked="checked" <?php if (@$cfg['status']) { echo 'checked="checked"'; } ?> />Да
+						<label><input name="status" type="radio" value="0"  <?php if (@!$cfg['status']) { echo 'checked="checked"'; } ?> />Нет</label>
+					</td>
             </tr>
 		</table>
 		<p>
@@ -366,4 +337,4 @@ if(!defined('VALID_CMS_ADMIN')) { die('ACCESS DENIED'); }
 		</p>
 	</form>	
 	
-	<?php } ?>
+<?php } ?>
