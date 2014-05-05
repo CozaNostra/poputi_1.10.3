@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<backend>    
+    <module>
+        <id>mod_lastpoputi</id>
+        <title>Последние маршруты</title>
+    </module>
+    <params>
+		<param type="list" name="avtor" title="Показывать автора маршрута">
+            <option title="Да" value="y" />
+            <option title="Нет" value="no" />
+            <option title="Cтрелка" value="s" />
+			<option title="На название" value="p" />
+        </param>
+        <param type="number" name="shownum" title="Количество маршрутов" units="шт." default="5" />
+    </params>
+</backend>

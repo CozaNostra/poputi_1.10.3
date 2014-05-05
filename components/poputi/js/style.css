@@ -1,0 +1,88 @@
+.table_poputi td {
+height: 27px;
+line-height: 27px;
+text-align: center;
+width: 80px;
+}
+.table_poputi td.bg { 
+background: url("/components/poputi/images/time.png") repeat-x transparent;
+}
+.table_poputi td.emptyBg { 
+background: url("/components/poputi/images/time_empty.png") repeat-x transparent;
+}
+#marshrut_poputi
+{
+background: 0px 0px #EFEFEF;
+border-radius: 8px;
+display: inline-block;
+margin-top: 15px;
+padding: 5px;
+}
+#marshrut_poputi span
+{
+font-size:11px;
+display:block;
+}
+#link_poputi
+{
+display:inline-block;
+padding:5px;
+vertical-align:absmiddle;
+text-decoration:none;
+background-color:#ccc;
+border-radius: 8px;
+}
+#nap_tuda input {
+font-size:10px;
+}
+.nap_ottuda input {
+font-size:10px;
+}
+
+.block_poputi {
+background: 0px 0px #EFEFEF;
+border-radius: 8px;
+display: inline-block;
+margin-top: 15px;
+padding: 5px;
+text-align: center;
+}
+
+.block_poputi small
+{
+font-size:10px;
+color:#aaaaaa;
+}
+.grey_poputi
+{
+color:#999999;
+font-size:11px;
+display:block;
+}
+.table_top_poputi tr td
+{
+vertical-align:top;
+color:#555555;
+}
+#query{
+position:relative;
+display:inline-block;
+width:70%;
+}
+#result_search
+{
+display:none;
+position:absolute;
+background-color:#fff;
+width:200px;
+border:1px solid #aaaaaa;
+padding:3px;
+}
+#quik_search_poputi
+{
+padding:0px;
+color:#aaa;
+font-size:12px;
+cursor:pointer;
+display:block;
+}
