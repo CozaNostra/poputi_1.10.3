@@ -1,11 +1,10 @@
 <?php
 	define("VALID_CMS", 1);
-    define('PATH', $_SERVER['DOCUMENT_ROOT']);
+	define('PATH', $_SERVER['DOCUMENT_ROOT']);
 	include(PATH.'/core/cms.php');
-    $inCore = cmsCore::getInstance();
+	$inCore = cmsCore::getInstance();
 	$inDB = cmsDatabase::getInstance();
 	$text = $inCore->request('text','str');
-
 
 $sql = "SELECT * FROM `cms_poputi` WHERE `kuda` LIKE '%{$text}%' OR `otkuda` LIKE '%{$text}%' LIMIT 10";
 $result = $inDB->query($sql);
@@ -14,7 +13,7 @@ $resultHtml = "";
 
 if($inDB->num_rows($result)==0)
 {
-	$resultHtml = "<span id='quik_search_poputi' >Ничего не найденно...</span>";
+	$resultHtml = "<span id='quik_search_poputi' >Ничего не найдено...</span>";
 }
 else
 {
