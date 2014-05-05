@@ -1,42 +1,29 @@
 <?php
-session_start();
 	define("VALID_CMS", 1);
     define('PATH', $_SERVER['DOCUMENT_ROOT']);
 	include(PATH.'/core/cms.php');
     $inCore = cmsCore::getInstance();
-    define('HOST', 'http://' . $inCore->getHost());
-    $inCore->loadClass('page');
-    $inCore->loadClass('user');
 	$inDB = cmsDatabase::getInstance();
-    $inUser = cmsUser::getInstance();
-	$inUser->update();
+	$text = $inCore->request('text','str');
 
 
-$sql = "SELECT `otkuda` , `kuda` FROM `cms_poputi` WHERE `kuda` LIKE '%{$_POST['text']}%' OR `otkuda` LIKE '%{$_POST['text']}%' LIMIT 10";
+$sql = "SELECT * FROM `cms_poputi` WHERE `kuda` LIKE '%{$text}%' OR `otkuda` LIKE '%{$text}%' LIMIT 10";
 $result = $inDB->query($sql);
 
-while($arr = $inDB->fetch_assoc($result))
-{
-	$array[] = $arr;
-}
-$count = count($array);
-for($i=0;$i<=$count;$i++)
-{
-	if(stripos($array[$i]['kuda'],$_POST['text'])===0 || stripos($array[$i]['kuda'],$_POST['text'])<0 )
-	{
-		$arr[] = $array[$i]['kuda'];
-	}
-	if(stripos($array[$i]['otkuda'],$_POST['text'])===0 || stripos($array[$i]['otkuda'],$_POST['text'])<0)
-	{
-		$arr[] = $array[$i]['otkuda'];
-	}
-}
+$resultHtml = "";
 
-$arr = @array_unique($arr);
-
-for($i=0;$i<=count($arr)-1;$i++)
+if($inDB->num_rows($result)==0)
 {
-	echo "<span id='quik_search_poputi' style=\"padding:5px;\" onmouseout=\"$(this).css('background-color','white')\" onmouseover=\"$(this).css('background-color','#dddddd')\" onclick=\"$('#squery').val('{$arr[$i]}')\" >{$arr[$i]}</span>";
+	$resultHtml = "<span id='quik_search_poputi' >Ничего не найденно...</span>";
 }
-	
+else
+{
+	while($row = $inDB->fetch_assoc($result))
+	{
+		$value = (strstr($row['kuda'],$text)) ? $row['kuda'] : $row['otkuda'];	
+		$resultHtml .= "<span id='quik_search_poputi' style=\"padding:5px;\" onmouseout=\"$(this).css('background-color','white')\" onmouseover=\"$(this).css('background-color','#dddddd')\" onclick=\"$('#squery').val('{$value}')\" >{$value}</span>";
+	}
+}	
+
+echo $resultHtml;
 ?>
