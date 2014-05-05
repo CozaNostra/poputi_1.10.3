@@ -1,9 +1,0 @@
-*.htaccess
-/set_lang.php
-/url_rewrite.php
-/version_log.txt
-/cron.php
-/index.php
-/license.rus.txt
-/license.txt
-/readme.txt
