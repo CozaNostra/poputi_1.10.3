@@ -246,7 +246,11 @@ if ($do=='cn_add'){
 												//Водитель или пассажир
 												if($inUser->poputi==1){$prefix = 'v';}else{$prefix = 'p';}
 												
-												$result = $model->addMarshrut($_POST);
+												$post = array();
+												foreach($_POST as $key => $val)
+													$post[$key] = $inCore->request($key,'str');
+												
+												$result = $model->addMarshrut($post);
 												
 												if($result)
 												{
@@ -262,7 +266,7 @@ if ($do=='cn_add'){
 											}
 										}
 											$smarty = $inCore->initSmarty('components', 'com_poputi_add.tpl');
-											$smarty->assign('post', $_POST);
+											$smarty->assign('post', $post);
 											$smarty->display('com_poputi_add.tpl');
 								}
 	}
@@ -305,7 +309,7 @@ if ($do=='cn_search'){
 		
 		echo '<p class="usr_photos_notice"><strong>Компонент "Попутчики" ищем '.$bar.'</strong></p>';
 		
-		$sql = "SELECT * FROM  `cms_users` WHERE  `poputi` = {$_REQUEST['user_poputi']} LIMIT 100";
+		$sql = "SELECT * FROM  `cms_users` WHERE  `poputi` = {$inCore->request('user_poputi','int')} LIMIT 100";
 		$result = $inDB->query($sql);
 		while($item = $inDB->fetch_assoc($result)){	$users[]['id'] = $item['id'];}
 		for($i=0;$i<count($users);$i++)
@@ -322,7 +326,7 @@ if ($do=='cn_search'){
 		} 
 		
 		
-		$sql = "SELECT * FROM cms_poputi WHERE {$add_sql} MATCH (kuda, otkuda, marshrut) AGAINST ('{$_REQUEST['query']}' IN BOOLEAN MODE) AND `published`=1 LIMIT 100";
+		$sql = "SELECT * FROM cms_poputi WHERE {$add_sql} MATCH (kuda, otkuda, marshrut) AGAINST ('{$inCore->request('query','str')}' IN BOOLEAN MODE) AND `published`=1 LIMIT 100";
 		
 		$result = $inDB->query($sql);
 		$total =$inDB->num_rows($result);
@@ -429,7 +433,11 @@ if ($do=='cn_edit'){
 												//Водитель или пассажир
 												if($inUser->poputi==1){$prefix = 'v';}else{$prefix = 'p';}
 												
-												$result = $model->editMarshrut($_POST,$id);
+												$post = array();
+												foreach($_POST as $key => $val)
+													$post[$key] = $inCore->request($key,'str');
+													
+												$result = $model->editMarshrut($post,$id);
 												
 												if($result)
 												{
@@ -470,7 +478,7 @@ $pagebar	= cmsPage::getPagebar($pagebar, $page, 1, $pagelink);
 
 											if($_REQUEST['off_poputi'])
 											{
-											$_SESSON['off_poputi'] = $_REQUEST['off_poputi'];
+												$_SESSON['off_poputi'] = $_REQUEST['off_poputi'];
 											}
 											$smarty = $inCore->initSmarty('components', 'com_poputi_all.tpl');
 											$smarty->assign('all', 'Водители');
