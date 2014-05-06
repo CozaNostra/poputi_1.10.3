@@ -36,7 +36,7 @@
         $_module['author']       = 'CozaNostra';
 
         //текущая версия
-        $_module['version']      = '1.10';
+        $_module['version']      = '1.10.3';
 
         //
         // Настройки по-умолчанию

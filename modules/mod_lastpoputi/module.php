@@ -23,30 +23,26 @@ function mod_lastpoputi($module_id){
         $inCore->loadModel('poputi');
         $model = new cms_model_poputi();
 
-		$sql = "SELECT  * FROM cms_poputi WHERE published = 1 ORDER BY id DESC";
-		
-		$sql .= "\n" . "LIMIT ".$cfg['shownum'];
+		$sql = "SELECT  poputi.*, user.nickname FROM cms_poputi poputi
+				LEFT JOIN cms_users AS user ON user.id = poputi.user_id 
+				WHERE poputi.published = 1 ORDER BY poputi.id DESC LIMIT ".$cfg['shownum'];
 	
 		$result = $inDB->query($sql);
 		
-		if ($inDB->num_rows($result)){	
-			$posts = array();
-			while($con = $inDB->fetch_assoc($result)){
-				$next = sizeof($posts);
-
-				$posts[$next] = $con;
-
-				$posts[$next]['user_id'] = $inDB->get_field('cms_users','`id`='.$con['user_id'],'nickname');								
-				$posts[$next]['userhref'] = '/poputi/v'.$con['user_id'].'.html';								
-			
+		$posts = array();
+		
+		if ($inDB->num_rows($result))
+		{	
+			while($con = $inDB->fetch_assoc($result))
+			{
+				$posts[] = $con;																
 			}
-			
-			$smarty = $inCore->initSmarty('modules', 'mod_lastpoputi.tpl');			
-			$smarty->assign('posts', $posts);
-			$smarty->assign('cfg', $cfg);
-			$smarty->display('mod_lastpoputi.tpl');
-
-		} else { echo '<p>Нет маршрутов</p>'; }
+		}
+		
+		$smarty = $inCore->initSmarty('modules', 'mod_lastpoputi.tpl');			
+		$smarty->assign('posts', $posts);
+		$smarty->assign('cfg', $cfg);
+		$smarty->display('mod_lastpoputi.tpl');
 				
 		return true;
 }
