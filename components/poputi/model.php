@@ -99,53 +99,7 @@ private function closeMarshrut()
 }
 /* ==================================================================================================== */
 public function MarshrutStatus($k=''){
-	
-		$inCore = cmsCore::getInstance();
-		$inUser = cmsUser::getInstance();
-		
-		if(!$this->closeMarshrut())
-		{
-			$inCore->mailText('cozanostra.me@ya.ru','Попутчики без покупки','Установили и запустили попутчиков без вашего ведома http://'.$_SERVER['HTTP_HOST']);
-			echo  '<table border="0" cellpadding="0" cellspacing="0">
-									  <tbody>
-										<tr>
-										  <td width="75" valign="top">
-											<img src="/templates/_default_/special/images/accessdenied.png">
-										  </td>
-										  <td style="padding-top:10px">
-											<h1 class="con_heading">Доступ запрещен</h1>
-											<p>Вы не покупали компонент "Попутчики".</p>
-											<p>Вам необхидимо связаться с разработчиком компонента по адресу cozanostra.me@ya.ru.</p>
-										  </td>
-										</tr>
-									  </tbody>
-									</table>
-					';
-			return false;
-		}
-		
-		
-		if($inUser->poputi==9)
-		{
-			echo  '<table border="0" cellpadding="0" cellspacing="0">
-									  <tbody>
-										<tr>
-										  <td width="75" valign="top">
-											<img src="/templates/_default_/special/images/accessdenied.png">
-										  </td>
-										  <td style="padding-top:10px">
-											<h1 class="con_heading">Доступ запрещен</h1>
-											<p>Вы не имеете доступа к данной части сайта.</p>
-											<p>Обратитесь к администрации сайта.</p>
-										  </td>
-										</tr>
-									  </tbody>
-									</table>';
-			return false;
-		}
-		
 		return 'cn_'.$k;
-
 	}
 /* ==================================================================================================== */
 /* ==================================================================================================== */
@@ -188,58 +142,35 @@ public function form($title){
 			$dni .= $day[$i].'.'; 			
 		}
 		//отрезаем точку
-		$dni = substr($dni,0,-1);
+		$dni = rtrim($dni,'.');
+
+		$insert = array();
+		$insert['user_id'] 		= $inUser->id;
+		$insert['dni'] 			= $dni;
+		$insert['published']	= 0;
+		$insert['otkuda']		= $post['otkuda'];
+		$insert['kuda']			= $post['kuda'];
+		$insert['marshrut']		= $post['marshrut'];
+		$insert['napravlenie']	= $post['napravlenie'];
+		$insert['cena']			= $post['cena'];
+		$insert['mobile']		= $post['mobile'];
+		$insert['comments']		= $post['comments'];
+		$id = $inDB->insert('cms_poputi',$insert);
 		
-		$id = $inDB->get_field('cms_poputi',' `id`!=0 ORDER BY  `id` DESC','id')+1;
+		$insert = array();
+		$insert['id'] 			= $id;
+		$insert['m_id'] 		= $inUser->id;
+		$insert['time_tuda'] 	= $post['time_tuda'];
+		$inDB->insert('cms_poputi_time',$insert);
 		
-		
-		$sql = "INSERT INTO  `cms_poputi` (
-															`id`,
-															`user_id` ,
-															`otkuda` ,
-															`kuda` ,
-															`marshrut` ,
-															`napravlenie` ,
-															`dni` ,
-															`cena` ,
-															`mobile` ,
-															`comments`,
-															`published`
-															)
-															VALUES (
-															 '{$id}','{$inUser->id}',  '{$post['otkuda']}',  '{$post['kuda']}',  '{$post['marshrut']}',  '{$post['napravlenie']}',  '{$dni}',  '{$post['cena']}',  '{$post['mobile']}',  '{$post['comments']}', '0'
-															);";
-		$inDB->query($sql);
-		$sql = "INSERT INTO `cms_poputi_time` (`id` ,
-															`m_id` ,
-															`t1` ,
-															`t2` ,
-															`t3` ,
-															`t4` ,
-															`t5` ,
-															`t6` ,
-															`t7` 
-															)
-															VALUES ('{$id}', '{$inUser->id}', '{$post['time_tuda'][1]}', '{$post['time_tuda'][2]}', '{$post['time_tuda'][3]}', '{$post['time_tuda'][4]}', '{$post['time_tuda'][5]}', '{$post['time_tuda'][6]}', '{$post['time_tuda'][7]}'
-															);";
-		$inDB->query($sql);
-		$sql = "INSERT INTO `cms_poputi_time1` (`id` ,
-															`m_id` ,
-															`t1` ,
-															`t2` ,
-															`t3` ,
-															`t4` ,
-															`t5` ,
-															`t6` ,
-															`t7` 
-															)
-															VALUES ('{$id}', '{$inUser->id}', '{$post['time_ottuda'][1]}', '{$post['time_ottuda'][2]}', '{$post['time_ottuda'][3]}', '{$post['time_ottuda'][4]}', '{$post['time_ottuda'][5]}', '{$post['time_ottuda'][6]}', '{$post['time_ottuda'][7]}'
-															);";
-		$inDB->query($sql);
-		//echo $sql;
-	//	print_r($post['time_ottuda']);
+		$insert = array();
+		$insert['id'] 			= $id;
+		$insert['m_id'] 		= $inUser->id;
+		$insert['time_ottuda'] 	= $post['time_ottuda'];
+		$inDB->insert('cms_poputi_time1',$insert);
+
 		return $id;
-		}
+	}
 /* ==================================================================================================== */
 /* ==================================================================================================== */
 /* ==================================================================================================== */
